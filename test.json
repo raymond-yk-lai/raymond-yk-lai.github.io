@@ -1,0 +1,108 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Partner Gateway API",
+    "description": "This is an API provide by HTHK to partner.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://virtserver.swaggerhub.com/raymond-yk-lai/PartnerGateway/1.0.0",
+      "description": "SwaggerHub API Auto Mocking"
+    }
+  ],
+  "paths": {
+    "/fCreditEnquiryWithExpiryDate/": {
+      "post": {
+        "tags": [
+          "HAHA SIM"
+        ],
+        "description": "Credit Enquiry with Card Expiry Date (without prepaid msisdn password) (Legacy 2.23)",
+        "operationId": "fCreditEnquiryWithExpiryDate",
+        "parameters": [
+          {
+            "name": "aid",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "example": "CP1"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Get Availabel Numbers Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ISO8601": {
+        "type": "string",
+        "description": "default date-time format for xAPI",
+        "format": "date-time",
+        "example": "2020-12-01T14:39:07.383+08:00"
+      },
+      "body": {
+        "required": [
+          "msisdn",
+          "userid",
+          "userpwd"
+        ],
+        "type": "object",
+        "properties": {
+          "userid": {
+            "type": "string",
+            "description": "User id (e.g. “user1”) (To be assigned by 3HK)"
+          },
+          "userpwd": {
+            "type": "string",
+            "description": "User password (e.g. “password”) (To be assigned by 3HK)"
+          },
+          "msisdn": {
+            "type": "string",
+            "description": "Prepaid MSISD"
+          }
+        }
+      },
+      "inline_response_200": {
+        "type": "object",
+        "properties": {
+          "msisdn": {
+            "type": "string"
+          },
+          "traderWalletBal": {
+            "type": "string"
+          },
+          "masterWalletBal": {
+            "type": "string"
+          },
+          "cardExpiryDate": {
+            "$ref": "#/components/schemas/ISO8601"
+          }
+        }
+      }
+    }
+  }
+}
