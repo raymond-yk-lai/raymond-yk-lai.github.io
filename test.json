@@ -3,22 +3,49 @@
   "info": {
     "title": "Partner Gateway API",
     "description": "This is an API provide by HTHK to partner.",
-    "version": "1.0.0"
+    "version": "1.0.1"
   },
   "servers": [
     {
-      "url": "https://virtserver.swaggerhub.com/raymond-yk-lai/PartnerGateway/1.0.0",
+      "url": "https://virtserver.swaggerhub.com/raymond-yk-lai/PartnerGateway/1.0.1",
       "description": "SwaggerHub API Auto Mocking"
+    },
+    {
+      "url": "https://www.three.com.hk/",
+      "description": "This is an API provide by HTHK to partner."
+    }
+  ],
+  "security": [
+    {
+      "BasicAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "sim",
+      "description": "Operations about sim (Subscription Level)"
+    },
+    {
+      "name": "offer",
+      "description": "Operations about offer (Buying Service)"
+    },
+    {
+      "name": "wallet",
+      "description": "Operations about wallet balance"
+    },
+    {
+      "name": "rnr",
+      "description": "Operations about Real Name Registration"
     }
   ],
   "paths": {
-    "/fCreditEnquiryWithExpiryDate/": {
+    "/subscriptionEnquiries": {
       "post": {
         "tags": [
-          "HAHA SIM"
+          "sim"
         ],
-        "description": "Credit Enquiry with Card Expiry Date (without prepaid msisdn password) (Legacy 2.23)",
-        "operationId": "fCreditEnquiryWithExpiryDate",
+        "description": "Get Subscription Info by msisdn",
+        "operationId": "subscriptionEnquiries",
         "parameters": [
           {
             "name": "aid",
@@ -29,6 +56,17 @@
             "schema": {
               "type": "string",
               "example": "CP1"
+            }
+          },
+          {
+            "name": "Authentication",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "example": "Basic ZGVtbzpwQDU1dzByZA=="
             }
           }
         ],
@@ -43,7 +81,7 @@
         },
         "responses": {
           "200": {
-            "description": "Get Availabel Numbers Successful",
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
@@ -51,6 +89,870 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericFailedResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication information is missing or invalid",
+            "headers": {
+              "Authorization": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string",
+                  "example": "Basic ZGVtbzpwQDU1dzByZA=="
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "the function is not allowed for such user"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/availableOfferEnquiries": {
+      "post": {
+        "tags": [
+          "offer"
+        ],
+        "description": "get avalavle offers for msisdn",
+        "operationId": "availableOfferEnquiries",
+        "parameters": [
+          {
+            "name": "aid",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "example": "CP1"
+            }
+          },
+          {
+            "name": "Authentication",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "example": "Basic ZGVtbzpwQDU1dzByZA=="
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/body_1"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_1"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericFailedResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication information is missing or invalid",
+            "headers": {
+              "Authorization": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string",
+                  "example": "Basic ZGVtbzpwQDU1dzByZA=="
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "the function is not allowed for such user"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/offerSubscriptions": {
+      "post": {
+        "tags": [
+          "offer"
+        ],
+        "description": "subscribe offer for msisdn",
+        "operationId": "offerSubscriptions",
+        "parameters": [
+          {
+            "name": "aid",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "example": "CP1"
+            }
+          },
+          {
+            "name": "Authentication",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "example": "Basic ZGVtbzpwQDU1dzByZA=="
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/body_2"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericFailedResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication information is missing or invalid",
+            "headers": {
+              "Authorization": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string",
+                  "example": "Basic ZGVtbzpwQDU1dzByZA=="
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "the function is not allowed for such user"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/offerUnsubscriptions": {
+      "post": {
+        "tags": [
+          "offer"
+        ],
+        "description": "unsubscribe offer for msisdn",
+        "operationId": "offerUnsubscriptions",
+        "parameters": [
+          {
+            "name": "aid",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "example": "CP1"
+            }
+          },
+          {
+            "name": "Authentication",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "example": "Basic ZGVtbzpwQDU1dzByZA=="
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/body_3"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericFailedResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication information is missing or invalid",
+            "headers": {
+              "Authorization": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string",
+                  "example": "Basic ZGVtbzpwQDU1dzByZA=="
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "the function is not allowed for such user"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/walletRecharges": {
+      "post": {
+        "tags": [
+          "wallet"
+        ],
+        "description": "Recharge Credit for msisdn",
+        "operationId": "walletRecharges",
+        "parameters": [
+          {
+            "name": "aid",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "example": "CP1"
+            }
+          },
+          {
+            "name": "Authentication",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "example": "Basic ZGVtbzpwQDU1dzByZA=="
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/body_4"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericFailedResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication information is missing or invalid",
+            "headers": {
+              "Authorization": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string",
+                  "example": "Basic ZGVtbzpwQDU1dzByZA=="
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "the function is not allowed for such user"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/walletEnquiries": {
+      "post": {
+        "tags": [
+          "wallet"
+        ],
+        "description": "get Wallet for msisdn",
+        "operationId": "walletEnquiries",
+        "parameters": [
+          {
+            "name": "aid",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "example": "CP1"
+            }
+          },
+          {
+            "name": "Authentication",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "example": "Basic ZGVtbzpwQDU1dzByZA=="
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/body_5"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_3"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericFailedResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication information is missing or invalid",
+            "headers": {
+              "Authorization": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string",
+                  "example": "Basic ZGVtbzpwQDU1dzByZA=="
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "the function is not allowed for such user"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/simActivations": {
+      "post": {
+        "tags": [
+          "sim"
+        ],
+        "description": "activateSim with msisdn",
+        "operationId": "simActivations",
+        "parameters": [
+          {
+            "name": "aid",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "example": "CP1"
+            }
+          },
+          {
+            "name": "Authentication",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "example": "Basic ZGVtbzpwQDU1dzByZA=="
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/body_6"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericFailedResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication information is missing or invalid",
+            "headers": {
+              "Authorization": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string",
+                  "example": "Basic ZGVtbzpwQDU1dzByZA=="
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "the function is not allowed for such user"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/usageEnquires": {
+      "post": {
+        "tags": [
+          "sim"
+        ],
+        "description": "get usage for msisdn",
+        "operationId": "usageEnquires",
+        "parameters": [
+          {
+            "name": "aid",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "example": "CP1"
+            }
+          },
+          {
+            "name": "Authentication",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "example": "Basic ZGVtbzpwQDU1dzByZA=="
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/body_7"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_3"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericFailedResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication information is missing or invalid",
+            "headers": {
+              "Authorization": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string",
+                  "example": "Basic ZGVtbzpwQDU1dzByZA=="
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "the function is not allowed for such user"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/voucherEnquiries": {
+      "post": {
+        "tags": [
+          "wallet"
+        ],
+        "description": "get voucher status",
+        "operationId": "voucherEnquiries",
+        "parameters": [
+          {
+            "name": "aid",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "example": "CP1"
+            }
+          },
+          {
+            "name": "Authentication",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "example": "Basic ZGVtbzpwQDU1dzByZA=="
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/body_8"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_4"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericFailedResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication information is missing or invalid",
+            "headers": {
+              "Authorization": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string",
+                  "example": "Basic ZGVtbzpwQDU1dzByZA=="
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "the function is not allowed for such user"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/voucherRedemptions": {
+      "post": {
+        "tags": [
+          "wallet"
+        ],
+        "description": "redeem voucher for msisdn",
+        "operationId": "voucherRedemptions",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/body_9"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "voucher Redemption success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericFailedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rnrCreations": {
+      "post": {
+        "tags": [
+          "rnr"
+        ],
+        "description": "Create Real Name Registration for msisdn",
+        "operationId": "rnrCreations",
+        "parameters": [
+          {
+            "name": "aid",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "example": "CP1"
+            }
+          },
+          {
+            "name": "Authentication",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "example": "Basic ZGVtbzpwQDU1dzByZA=="
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/body_10"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericFailedResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication information is missing or invalid",
+            "headers": {
+              "Authorization": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string",
+                  "example": "Basic ZGVtbzpwQDU1dzByZA=="
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "the function is not allowed for such user"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/rnrEnquiries": {
+      "post": {
+        "tags": [
+          "rnr"
+        ],
+        "description": "Get Real Name Registration Status",
+        "operationId": "rnrEnquiries",
+        "parameters": [
+          {
+            "name": "aid",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "example": "CP1"
+            }
+          },
+          {
+            "name": "Authentication",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "example": "Basic ZGVtbzpwQDU1dzByZA=="
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/body_11"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_5"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericFailedResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication information is missing or invalid",
+            "headers": {
+              "Authorization": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string",
+                  "example": "Basic ZGVtbzpwQDU1dzByZA=="
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "the function is not allowed for such user"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -64,7 +966,555 @@
         "format": "date-time",
         "example": "2020-12-01T14:39:07.383+08:00"
       },
+      "msisdn8Digits": {
+        "type": "string",
+        "example": "95781172"
+      },
+      "Subscription": {
+        "type": "object",
+        "properties": {
+          "subscriptionId": {
+            "type": "string",
+            "example": "MOSUB999999998"
+          },
+          "activationDate": {
+            "$ref": "#/components/schemas/ISO8601"
+          },
+          "subsEndDate": {
+            "$ref": "#/components/schemas/ISO8601"
+          },
+          "status": {
+            "$ref": "#/components/schemas/SubscriptionStatus"
+          },
+          "lang": {
+            "$ref": "#/components/schemas/LangEnum"
+          },
+          "subscriptionOffers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SubscriptionOfferObj"
+            }
+          }
+        }
+      },
+      "SubscriptionStatus": {
+        "type": "string",
+        "description": "- ACTIVE\n- INACTIVE\n- PREACTIVE\n- TERMINATED\n- DEACTIVATED\n- SUBSPENDED\n"
+      },
+      "LangEnum": {
+        "type": "string",
+        "enum": [
+          "CHINESE",
+          "ENGLISH",
+          "INDONESIAN"
+        ]
+      },
+      "simTypeEnum": {
+        "type": "string",
+        "enum": [
+          "PHYSICAL_SIM",
+          "ESIM",
+          "ONE_CARD_MULTI_NUMBER"
+        ]
+      },
+      "SubscriptionOfferObj": {
+        "type": "object",
+        "properties": {
+          "offerId": {
+            "type": "string"
+          },
+          "offerName": {
+            "type": "string"
+          },
+          "offerType": {
+            "type": "string"
+          },
+          "offerSubType": {
+            "type": "string"
+          },
+          "offerCategory": {
+            "$ref": "#/components/schemas/OfferCategoryEnum"
+          },
+          "planStatus": {
+            "type": "string",
+            "example": "ACTIVE",
+            "enum": [
+              "ACTIVE",
+              "FUTURE",
+              "INACTIVE"
+            ]
+          },
+          "activationDate": {
+            "$ref": "#/components/schemas/ISO8601"
+          },
+          "endDate": {
+            "$ref": "#/components/schemas/ISO8601"
+          },
+          "subscriptionProducts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SubscriptionProductObj"
+            }
+          }
+        }
+      },
+      "OfferObj": {
+        "type": "object",
+        "properties": {
+          "offerId": {
+            "type": "string",
+            "example": "MOOF00000000001"
+          },
+          "offerName": {
+            "type": "string"
+          },
+          "offerDesc": {
+            "type": "string"
+          },
+          "offerType": {
+            "type": "string",
+            "description": "- 'BASE - base offer which is the base plan for customer'\n- 'ADDON - add on offer like MO BOX'\n- 'VAS - value added services like KKBOX, Travel Pass etc'\n- 'TOPUP - local data/roaming data/travel pass topup offer'\n- 'TOPUP_DATA - roaming data for prepaid fast track\n- 'BUNDLE - bundle offer cominbe base offer and vas/topu offer etc'\n",
+            "example": "BASE"
+          },
+          "offerSubType": {
+            "type": "string",
+            "description": "- 'DIY - DIY offer'\n- 'TRAVEL - roaming ofer'\n- 'LOCAL - local offer'\n- 'TP_LOCAL - travel plan local offer'\n",
+            "example": "DIY"
+          },
+          "offerCategory": {
+            "$ref": "#/components/schemas/OfferCategoryEnum"
+          },
+          "offerPrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "listPrice": {
+            "type": "number",
+            "description": "For display offerPrice in frontend only",
+            "format": "double"
+          }
+        }
+      },
+      "GenericFailedResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": "- 9001: No such subscription\n- 9002: invalid offerId\n",
+            "example": 9000
+          },
+          "message": {
+            "type": "string",
+            "example": "Error Message"
+          }
+        }
+      },
+      "OfferCategoryEnum": {
+        "type": "string",
+        "description": "- 'SOSIM_BASE_PLAN'\n- 'SOSIM_SOCIAL_PASS'\n- 'SOSIM_ZOOM_PASS'\n- 'SOSIM_VOLTE_PASS'\n- 'SOSIM_JIEJIE_DAILY_PASS'\n- 'SOSIM_CROSS_BORDER'\n- 'SOSIM_VOICE_ONLY'\n  \n",
+        "example": "SOSIM_BASE_PLAN"
+      },
+      "BalanceObj": {
+        "type": "object",
+        "properties": {
+          "ResourceId": {
+            "type": "number",
+            "description": "to map with the purchased offered.",
+            "example": 1
+          },
+          "Amount": {
+            "type": "number",
+            "description": "the current amount",
+            "format": "double",
+            "example": 2048
+          },
+          "ThresholdLimit": {
+            "type": "string",
+            "description": "the total available amount",
+            "example": "infinity, 2048.0"
+          },
+          "QuantityUnit": {
+            "type": "string",
+            "example": "megabytes"
+          },
+          "StartTime": {
+            "$ref": "#/components/schemas/ISO8601"
+          },
+          "EndTime": {
+            "$ref": "#/components/schemas/ISO8601"
+          }
+        }
+      },
+      "SubscriptionProductObj": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string",
+            "example": "MOPRD0000000001"
+          },
+          "productName": {
+            "type": "string"
+          },
+          "productSpecType": {
+            "type": "string",
+            "description": "determine the array of productVoice, productData, productSms, productMms\n"
+          },
+          "productSpecSubType": {
+            "type": "string",
+            "description": "example :LOCAL_DATA, LOCAL_NIGHT_FEVER, LOCAL_SOCIAL_DATA, VOICE_DATA, ROAMING_DATA, ROAMING_SOCIAL_DATA\n"
+          },
+          "matrixxBalanceInfos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MatrixxBalanceInfoObj"
+            }
+          }
+        }
+      },
+      "MatrixxBalanceInfoObj": {
+        "type": "object",
+        "properties": {
+          "templateId": {
+            "type": "string"
+          },
+          "balanceName": {
+            "type": "string"
+          },
+          "balanceResourceId": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number",
+            "description": "amount is from Matrixx balance amount which include topup + vas/base offer"
+          },
+          "thresholdLimit": {
+            "type": "number"
+          },
+          "grantAmount": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "startDate": {
+            "$ref": "#/components/schemas/ISO8601"
+          },
+          "endDate": {
+            "$ref": "#/components/schemas/ISO8601"
+          }
+        }
+      },
+      "RealNameRegistrationInfoObj": {
+        "type": "object",
+        "properties": {
+          "idType": {
+            "type": "string",
+            "description": "HKID, PASSPORT, BR"
+          },
+          "idNumber": {
+            "type": "string"
+          },
+          "rnrRegisterInfo": {
+            "$ref": "#/components/schemas/RnrRegisterInfoObj"
+          },
+          "rnrBRInfo": {
+            "$ref": "#/components/schemas/RnrBRInfoObj"
+          },
+          "rnrGuardianInfo": {
+            "$ref": "#/components/schemas/RnrGuardianInfoObj"
+          },
+          "isGuardian": {
+            "type": "boolean"
+          }
+        }
+      },
+      "RnrRegisterInfoObj": {
+        "type": "object",
+        "properties": {
+          "englishName": {
+            "type": "string"
+          },
+          "chineseName": {
+            "type": "string"
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "rnrDocuments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RealNameRegistrationDocumentObj"
+            }
+          },
+          "idNbrConfidentLevel": {
+            "multipleOf": 0.001,
+            "type": "number",
+            "format": "double"
+          },
+          "idNbrIsManualInput": {
+            "type": "boolean"
+          },
+          "englishNameConfidentLevel": {
+            "multipleOf": 0.001,
+            "type": "number",
+            "format": "double"
+          },
+          "englishNameIsManualInput": {
+            "type": "boolean"
+          },
+          "chineseNameConfidentLevel": {
+            "multipleOf": 0.001,
+            "type": "number",
+            "format": "double"
+          },
+          "chineseNameIsManualInput": {
+            "type": "boolean"
+          },
+          "birthDateConfidentLevel": {
+            "multipleOf": 0.001,
+            "type": "number",
+            "format": "double"
+          },
+          "birthDateIsManualInput": {
+            "type": "boolean"
+          },
+          "overallConfidentLevel": {
+            "multipleOf": 0.001,
+            "type": "number",
+            "format": "double"
+          },
+          "overallIsManualInput": {
+            "type": "boolean"
+          }
+        },
+        "description": "If idType is HKID and PASSPORT, the RnrRegisterInfoObj is required. If not, the RnrRegisterInfoObj can be empty."
+      },
+      "RealNameRegistrationDocumentObj": {
+        "required": [
+          "docImage",
+          "docType"
+        ],
+        "type": "object",
+        "properties": {
+          "docType": {
+            "type": "string",
+            "description": "HKID,PASSPORT,MNP,CMN,CONTRACT,SIM,BR_NBR,SSA,ADDRESS_PROOF,COP,ECOS,SIGNATURE,SCREENCAPTURE"
+          },
+          "docNumber": {
+            "type": "string"
+          },
+          "docImage": {
+            "type": "string"
+          }
+        }
+      },
+      "RnrBRInfoObj": {
+        "type": "object",
+        "properties": {
+          "engInstitutionName": {
+            "type": "string"
+          },
+          "chiInstitutionName": {
+            "type": "string"
+          },
+          "engBranchName": {
+            "type": "string"
+          },
+          "chiBranchName": {
+            "type": "string"
+          },
+          "brDocument": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RealNameRegistrationDocumentObj"
+            }
+          },
+          "responsiblePerson": {
+            "$ref": "#/components/schemas/RnrResponsiblePersonObj"
+          },
+          "isUpdateResponsiblePerson": {
+            "type": "boolean"
+          }
+        },
+        "description": "If idType is BR, the RnrBRInfoObj is required. If not, the RnrBRInfoObj can be empty."
+      },
+      "RnrGuardianInfoObj": {
+        "type": "object",
+        "properties": {
+          "idType": {
+            "type": "string",
+            "description": "HKID, PASSPORT"
+          },
+          "idNumber": {
+            "type": "string"
+          },
+          "englishName": {
+            "type": "string"
+          },
+          "chineseName": {
+            "type": "string"
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "relationship": {
+            "type": "string"
+          },
+          "rnrDocuments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RealNameRegistrationDocumentObj"
+            }
+          },
+          "idNbrConfidentLevel": {
+            "multipleOf": 0.001,
+            "type": "number",
+            "format": "double"
+          },
+          "idNbrIsManualInput": {
+            "type": "boolean"
+          },
+          "englishNameConfidentLevel": {
+            "multipleOf": 0.001,
+            "type": "number",
+            "format": "double"
+          },
+          "englishNameIsManualInput": {
+            "type": "boolean"
+          },
+          "chineseNameConfidentLevel": {
+            "multipleOf": 0.001,
+            "type": "number",
+            "format": "double"
+          },
+          "chineseNameIsManualInput": {
+            "type": "boolean"
+          },
+          "birthDateConfidentLevel": {
+            "multipleOf": 0.001,
+            "type": "number",
+            "format": "double"
+          },
+          "birthDateIsManualInput": {
+            "type": "boolean"
+          },
+          "overallConfidentLevel": {
+            "multipleOf": 0.001,
+            "type": "number",
+            "format": "double"
+          },
+          "overallIsManualInput": {
+            "type": "boolean"
+          }
+        },
+        "description": "If the isGuardian is true, the RnrGuardianInfoObj is required. If false, the RnrGuardianInfoObj can be empty."
+      },
+      "RnrResponsiblePersonObj": {
+        "type": "object",
+        "properties": {
+          "idType": {
+            "type": "string",
+            "description": "HKID, PASSPORT"
+          },
+          "idNumber": {
+            "type": "string"
+          },
+          "englishName": {
+            "type": "string"
+          },
+          "chineseName": {
+            "type": "string"
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "rnrDocuments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RealNameRegistrationDocumentObj"
+            }
+          },
+          "idNbrConfidentLevel": {
+            "multipleOf": 0.001,
+            "type": "number",
+            "format": "double"
+          },
+          "idNbrIsManualInput": {
+            "type": "boolean"
+          },
+          "englishNameConfidentLevel": {
+            "multipleOf": 0.001,
+            "type": "number",
+            "format": "double"
+          },
+          "englishNameIsManualInput": {
+            "type": "boolean"
+          },
+          "chineseNameConfidentLevel": {
+            "multipleOf": 0.001,
+            "type": "number",
+            "format": "double"
+          },
+          "chineseNameIsManualInput": {
+            "type": "boolean"
+          },
+          "birthDateConfidentLevel": {
+            "multipleOf": 0.001,
+            "type": "number",
+            "format": "double"
+          },
+          "birthDateIsManualInput": {
+            "type": "boolean"
+          },
+          "overallConfidentLevel": {
+            "multipleOf": 0.001,
+            "type": "number",
+            "format": "double"
+          },
+          "overallIsManualInput": {
+            "type": "boolean"
+          }
+        }
+      },
       "body": {
+        "required": [
+          "userid",
+          "userpwd"
+        ],
+        "type": "object",
+        "properties": {
+          "userid": {
+            "type": "string",
+            "description": "User id (e.g. “user1”) (To be assigned by 3HK)"
+          },
+          "userpwd": {
+            "type": "string",
+            "description": "User password (e.g. “password”) (To be assigned by 3HK)"
+          },
+          "msisdn": {
+            "$ref": "#/components/schemas/msisdn8Digits"
+          },
+          "iccid": {
+            "type": "string",
+            "example": "8985200000000000"
+          }
+        }
+      },
+      "inline_response_200": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Subscription"
+            }
+          }
+        }
+      },
+      "body_1": {
         "required": [
           "msisdn",
           "userid",
@@ -81,27 +1531,381 @@
             "description": "User password (e.g. “password”) (To be assigned by 3HK)"
           },
           "msisdn": {
-            "type": "string",
-            "description": "Prepaid MSISD"
+            "$ref": "#/components/schemas/msisdn8Digits"
           }
         }
       },
-      "inline_response_200": {
+      "inline_response_200_1": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OfferObj"
+            }
+          }
+        }
+      },
+      "body_2": {
+        "required": [
+          "msisdn",
+          "offerId",
+          "userid",
+          "userpwd"
+        ],
+        "type": "object",
+        "properties": {
+          "userid": {
+            "type": "string",
+            "description": "User id (e.g. “user1”) (To be assigned by 3HK)"
+          },
+          "userpwd": {
+            "type": "string",
+            "description": "User password (e.g. “password”) (To be assigned by 3HK)"
+          },
+          "msisdn": {
+            "$ref": "#/components/schemas/msisdn8Digits"
+          },
+          "offerId": {
+            "type": "string"
+          }
+        }
+      },
+      "body_3": {
+        "required": [
+          "msisdn",
+          "offerId",
+          "userid",
+          "userpwd"
+        ],
+        "type": "object",
+        "properties": {
+          "userid": {
+            "type": "string",
+            "description": "User id (e.g. “user1”) (To be assigned by 3HK)"
+          },
+          "userpwd": {
+            "type": "string",
+            "description": "User password (e.g. “password”) (To be assigned by 3HK)"
+          },
+          "msisdn": {
+            "$ref": "#/components/schemas/msisdn8Digits"
+          },
+          "offerId": {
+            "type": "string"
+          }
+        }
+      },
+      "body_4": {
+        "required": [
+          "amount",
+          "msisdn",
+          "transactionId",
+          "userid",
+          "userpwd"
+        ],
+        "type": "object",
+        "properties": {
+          "userid": {
+            "type": "string",
+            "description": "User id (e.g. “user1”) (To be assigned by 3HK)"
+          },
+          "userpwd": {
+            "type": "string",
+            "description": "User password (e.g. “password”) (To be assigned by 3HK)"
+          },
+          "msisdn": {
+            "$ref": "#/components/schemas/msisdn8Digits"
+          },
+          "amount": {
+            "type": "string",
+            "description": "Credit Amount"
+          },
+          "transactionId": {
+            "type": "string"
+          }
+        }
+      },
+      "inline_response_200_2": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/inline_response_200_2_data"
+          }
+        }
+      },
+      "body_5": {
+        "required": [
+          "msisdn",
+          "userid",
+          "userpwd"
+        ],
+        "type": "object",
+        "properties": {
+          "userid": {
+            "type": "string",
+            "description": "User id (e.g. “user1”) (To be assigned by 3HK)"
+          },
+          "userpwd": {
+            "type": "string",
+            "description": "User password (e.g. “password”) (To be assigned by 3HK)"
+          },
+          "msisdn": {
+            "$ref": "#/components/schemas/msisdn8Digits"
+          }
+        }
+      },
+      "inline_response_200_3": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MatrixxBalanceInfoObj"
+            }
+          }
+        }
+      },
+      "body_6": {
+        "required": [
+          "msisdn",
+          "userid",
+          "userpwd"
+        ],
+        "type": "object",
+        "properties": {
+          "userid": {
+            "type": "string",
+            "description": "User id (e.g. “user1”) (To be assigned by 3HK)"
+          },
+          "userpwd": {
+            "type": "string",
+            "description": "User password (e.g. “password”) (To be assigned by 3HK)"
+          },
+          "msisdn": {
+            "$ref": "#/components/schemas/msisdn8Digits"
+          }
+        }
+      },
+      "body_7": {
+        "required": [
+          "msisdn",
+          "userid",
+          "userpwd"
+        ],
+        "type": "object",
+        "properties": {
+          "userid": {
+            "type": "string",
+            "description": "User id (e.g. “user1”) (To be assigned by 3HK)"
+          },
+          "userpwd": {
+            "type": "string",
+            "description": "User password (e.g. “password”) (To be assigned by 3HK)"
+          },
+          "msisdn": {
+            "$ref": "#/components/schemas/msisdn8Digits"
+          }
+        }
+      },
+      "body_8": {
+        "required": [
+          "machineId",
+          "msisdn",
+          "userid",
+          "userpwd",
+          "vendorID",
+          "vocSerialNumber"
+        ],
+        "type": "object",
+        "properties": {
+          "userid": {
+            "type": "string",
+            "description": "User id (e.g. “user1”) (To be assigned by 3HK)"
+          },
+          "userpwd": {
+            "type": "string",
+            "description": "User password (e.g. “password”) (To be assigned by 3HK)"
+          },
+          "msisdn": {
+            "$ref": "#/components/schemas/msisdn8Digits"
+          },
+          "vocSerialNumber": {
+            "type": "string",
+            "description": "Voucher serial number"
+          },
+          "vendorID": {
+            "type": "string",
+            "description": "Vendor id (To be assigned by 3HK)"
+          },
+          "machineId": {
+            "type": "string",
+            "description": "Reference ID (To be assigned by CP)"
+          }
+        }
+      },
+      "inline_response_200_4": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/inline_response_200_4_data"
+          }
+        }
+      },
+      "body_9": {
+        "required": [
+          "msisdn",
+          "redemptionCode",
+          "userid",
+          "userpwd"
+        ],
+        "type": "object",
+        "properties": {
+          "userid": {
+            "type": "string",
+            "description": "User id (e.g. “user1”) (To be assigned by 3HK)"
+          },
+          "userpwd": {
+            "type": "string",
+            "description": "User password (e.g. “password”) (To be assigned by 3HK)"
+          },
+          "msisdn": {
+            "$ref": "#/components/schemas/msisdn8Digits"
+          },
+          "redemptionCode": {
+            "type": "string"
+          }
+        }
+      },
+      "body_10": {
+        "required": [
+          "msisdn",
+          "rnrInfo",
+          "userid",
+          "userpwd"
+        ],
+        "type": "object",
+        "properties": {
+          "userid": {
+            "type": "string",
+            "description": "User id (e.g. “user1”) (To be assigned by 3HK)"
+          },
+          "userpwd": {
+            "type": "string",
+            "description": "User password (e.g. “password”) (To be assigned by 3HK)"
+          },
+          "msisdn": {
+            "$ref": "#/components/schemas/msisdn8Digits"
+          },
+          "rnrInfo": {
+            "$ref": "#/components/schemas/RealNameRegistrationInfoObj"
+          }
+        }
+      },
+      "body_11": {
+        "required": [
+          "msisdn",
+          "userid",
+          "userpwd"
+        ],
+        "type": "object",
+        "properties": {
+          "userid": {
+            "type": "string",
+            "description": "User id (e.g. “user1”) (To be assigned by 3HK)"
+          },
+          "userpwd": {
+            "type": "string",
+            "description": "User password (e.g. “password”) (To be assigned by 3HK)"
+          },
+          "msisdn": {
+            "$ref": "#/components/schemas/msisdn8Digits"
+          }
+        }
+      },
+      "inline_response_200_5": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/inline_response_200_5_data"
+          }
+        }
+      },
+      "inline_response_200_2_data": {
+        "type": "object",
+        "properties": {
+          "currentAmount": {
+            "type": "number"
+          },
+          "transactionId": {
+            "type": "string"
+          }
+        }
+      },
+      "inline_response_200_4_data": {
+        "type": "object",
+        "properties": {
+          "voucherSerialNumber": {
+            "type": "string"
+          },
+          "voucherStatus": {
+            "type": "string"
+          },
+          "activationDate": {
+            "$ref": "#/components/schemas/ISO8601"
+          },
+          "expiryDate": {
+            "$ref": "#/components/schemas/ISO8601"
+          }
+        }
+      },
+      "inline_response_200_5_data": {
         "type": "object",
         "properties": {
           "msisdn": {
             "type": "string"
           },
-          "traderWalletBal": {
-            "type": "string"
-          },
-          "masterWalletBal": {
-            "type": "string"
-          },
-          "cardExpiryDate": {
-            "$ref": "#/components/schemas/ISO8601"
+          "rnrRegistered": {
+            "type": "boolean"
           }
         }
+      }
+    },
+    "responses": {
+      "BadRequestError": {
+        "description": "Bad Request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/GenericFailedResponse"
+            }
+          }
+        }
+      },
+      "DefaultError": {
+        "description": "Internal Server Error"
+      },
+      "UnauthorizedError": {
+        "description": "Authentication information is missing or invalid",
+        "headers": {
+          "Authorization": {
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "example": "Basic ZGVtbzpwQDU1dzByZA=="
+            }
+          }
+        }
+      },
+      "ForbiddenError": {
+        "description": "the function is not allowed for such user"
+      }
+    },
+    "securitySchemes": {
+      "BasicAuth": {
+        "type": "http",
+        "scheme": "basic"
       }
     }
   }
